@@ -57,17 +57,12 @@ function carregarProdutos() {
        <div class="product">
 
       <div class="image" style="background-image: url('${p.linkF}')"></div>
-        <span class="store">${p.store}</span>
-        <span class="name">${p.nome}</span>
-        <span class="price">${p.price}</span>
+        
+        <span class="name">${p.id}</span>
+       
         <div>
-          <button class="fav-btn" data-name="${p.nome}" data-image="${p.linkF}" data-link="${p.link}"
-            data-price="${p.price}">
-            🖤
-          </button>
-
-          <button onclick="window.open('${p.link}', '_blank')">
-            Acessar link🔗
+          <button onclick="remove()">
+            REMOVER
           </button>
           
         </div>
