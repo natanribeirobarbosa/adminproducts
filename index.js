@@ -42,4 +42,48 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
   alert("Salvo com sucesso!");
 }
 
+
+function carregarProdutos() {
+  const lista = document.getElementById("products")
+
+  onSnapshot(collection(db, "roupas"), snapshot => {
+    lista.innerHTML = ""
+    let html = '';
+
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      html += `
+       <div class="product">
+
+      <div class="image" style="background-image: url('${p.linkF}')"></div>
+        <span class="store">${p.store}</span>
+        <span class="name">${p.nome}</span>
+        <span class="price">${p.price}</span>
+        <div>
+          <button class="fav-btn" data-name="${p.nome}" data-image="${p.linkF}" data-link="${p.link}"
+            data-price="${p.price}">
+            🖤
+          </button>
+
+          <button onclick="window.open('${p.link}', '_blank')">
+            Acessar link🔗
+          </button>
+          
+        </div>
+      </div>
+    </div>
+        `
+
+    })
+    lista.innerHTML = html;
+    
+  })
+
+}
+
+
+carregarProdutos();
+
 window.salvarProduto = salvarProduto
+
+
