@@ -73,50 +73,50 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
     console.log(categories);
     console.log(typeof categories);
 
-    if (categories.includes(cat1)) {
-        const nomesAtuais = categories.push(cat1)
+    if (!categories.includes(cat1)) {
+        categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
 
         await updateDoc(ref, {
-            names: nomesAtuais
+            names: categories
         });
     }
 
     if (cat2 != '') {
         await setDoc(doc(db, cat2, produtoId), dados);
 
-            if (categories.includes(cat2)) {
-                const nomesAtuais = categories.push(cat1)
+            if (!categories.includes(cat2)) {
+                categories.push(cat2)
 
                 const ref = doc(db, "config", "allCategories");
 
                 await updateDoc(ref, {
-                    names: nomesAtuais
+                    names: categories
                 },{ merge: true });
     }
     }
     if (cat3 != '') {
         await setDoc(doc(db, cat3, produtoId), dados);
-            if (categories.includes(cat3)) {
-        const nomesAtuais = categories.push(cat1)
+            if (!categories.includes(cat3)) {
+        categories.push(cat3)
 
         const ref = doc(db, "config", "allCategories");
 
         await updateDoc(ref, {
-            names: nomesAtuais
+            names: categories
         });
     }
     }
     if (cat4 != '') {
         await setDoc(doc(db, cat4, produtoId), dados);
-            if (categories.includes(cat4)) {
-        const nomesAtuais = categories.push(cat1)
+            if (!categories.includes(cat4)) {
+        categories.push(cat4)
 
         const ref = doc(db, "config", "allCategories");
 
         await updateDoc(ref, {
-            names: nomesAtuais
+            names: categories
         });
     }
     }
