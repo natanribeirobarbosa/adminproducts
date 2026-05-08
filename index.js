@@ -71,9 +71,9 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
     
     const categories = await captureCategories();
     console.log(categories);
-console.log(typeof categories);
+    console.log(typeof categories);
 
-    if (categories.indexOf(cat1) == -1) {
+    if (categorias.includes(busca)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
