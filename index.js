@@ -85,7 +85,7 @@ console.log(typeof categories);
 
     if (cat2 != '') {
         await setDoc(doc(db, cat2, produtoId), dados);
-            if (categories.indexOf(cat2) == -1) {
+            if (categorias.includes(cat2)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
@@ -97,7 +97,7 @@ console.log(typeof categories);
     }
     if (cat3 != '') {
         await setDoc(doc(db, cat3, produtoId), dados);
-            if (categories.indexOf(cat3) == -1) {
+            if (categorias.includes(cat3)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
@@ -109,7 +109,7 @@ console.log(typeof categories);
     }
     if (cat4 != '') {
         await setDoc(doc(db, cat4, produtoId), dados);
-            if (categories.indexOf(cat4) == -1) {
+            if (categorias.includes(cat4)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
