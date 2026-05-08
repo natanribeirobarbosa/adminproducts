@@ -11,7 +11,7 @@ import {
     getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-function captureCategories() {
+async function captureCategories() {
 
     const ref = doc(db, "config", "allCategories");
     const snapshot = await getDoc(ref);
@@ -22,7 +22,7 @@ function captureCategories() {
 
 async function apagarPorNome(nome) {
 
-    nomes = captureCategories;
+    nomes = await captureCategories;
 
     nomes.forEach(nome => {
         const q = query(
@@ -60,7 +60,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
 
     // salva na coleção da categoria com o MESMO ID
     await setDoc(doc(db, cat1, produtoId), dados);
-    const categories = captureCategories;
+    const categories = await captureCategories;
 
     if (categories.indexof(cat1) == -1) {
         categories.push(cat1)
