@@ -73,7 +73,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
     console.log(categories);
     console.log(typeof categories);
 
-    if (categorias.includes(busca)) {
+    if (categories.includes(busca)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
@@ -85,7 +85,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
 
     if (cat2 != '') {
         await setDoc(doc(db, cat2, produtoId), dados);
-            if (categorias.includes(cat2)) {
+            if (categories.includes(cat2)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
@@ -97,7 +97,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
     }
     if (cat3 != '') {
         await setDoc(doc(db, cat3, produtoId), dados);
-            if (categorias.includes(cat3)) {
+            if (categories.includes(cat3)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
@@ -109,7 +109,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
     }
     if (cat4 != '') {
         await setDoc(doc(db, cat4, produtoId), dados);
-            if (categorias.includes(cat4)) {
+            if (categories.includes(cat4)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
