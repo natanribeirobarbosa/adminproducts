@@ -85,14 +85,15 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
 
     if (cat2 != '') {
         await setDoc(doc(db, cat2, produtoId), dados);
+
             if (categories.includes(cat2)) {
-        const nomesAtuais = categories.push(cat1)
+                const nomesAtuais = categories.push(cat1)
 
-        const ref = doc(db, "config", "allCategories");
+                const ref = doc(db, "config", "allCategories");
 
-        await updateDoc(ref, {
-            names: nomesAtuais
-        });
+                await updateDoc(ref, {
+                    names: nomesAtuais
+                },{ merge: true });
     }
     }
     if (cat3 != '') {
