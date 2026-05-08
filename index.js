@@ -13,18 +13,30 @@ import {
 
 async function apagarPorNome(nome) {
 
-  const q = query(
-    collection(db, "roupas"),
-    where("nome", "==", nome)
-  );
+    const ref = doc(db, "config", "allCategories");
+    const snapshot = await getDoc(ref);
+    const dados = snapshot.data();
 
-  const snapshot = await getDocs(q);
+    const nomes = dados.names;
 
-  snapshot.forEach(async (item) => {
-    await deleteDoc(doc(db, "roupas", item.id));
-  });
+    nomes.forEach(nome =>{
+        const q = query(
+        collection(db, nome),
+        where("nome", "==", nome)
+        );
 
-  console.log("Documentos removidos");
+        const snapshot = await getDocs(q);
+
+        snapshot.forEach(async (item) => {
+        await deleteDoc(doc(db, "roupas", item.id));
+        });
+
+        console.log("Documentos removidos");
+    })
+
+
+
+    
 }
 
 
