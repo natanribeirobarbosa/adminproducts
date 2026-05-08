@@ -100,7 +100,7 @@ function carregarProdutos() {
 
 
 carregarProdutos();
-
+window.apagarPorStore = apagarPorStore
 window.salvarProduto = salvarProduto
 
 
