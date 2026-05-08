@@ -66,7 +66,10 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
 
     // salva na coleção da categoria com o MESMO ID
     await setDoc(doc(db, cat1, produtoId), dados);
-    const categories = await captureCategories;
+    
+    const categories = await captureCategories();
+    console.log(categories);
+console.log(typeof categories);
 
     if (categories.indexOf(cat1) == -1) {
         categories.push(cat1)
