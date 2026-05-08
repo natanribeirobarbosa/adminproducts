@@ -4,7 +4,10 @@ import {
   collection,
   doc,
   setDoc,
-  onSnapshot
+  onSnapshot,
+   query,
+  where,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
@@ -58,10 +61,11 @@ function carregarProdutos() {
 
       <div class="image" style="background-image: url('${p.linkF}')"></div>
         
-        <span class="name">${p.id}</span>
+        <span class="name">${doc.id}</span>
+        <span class="name">${p.nome}</span>
        
         <div>
-          <button onclick="remove()">
+          <button onclick="apagarPorStore(${p.nome})">
             REMOVER
           </button>
           
@@ -78,6 +82,21 @@ function carregarProdutos() {
 }
 
 
+async function apagarPorStore(storeNome) {
+
+  const q = query(
+    collection(db, "roupas"),
+    where("store", "==", storeNome)
+  );
+
+  const snapshot = await getDocs(q);
+
+  snapshot.forEach(async (item) => {
+    await deleteDoc(doc(db, "roupas", item.id));
+  });
+
+  console.log("Documentos removidos");
+}
 carregarProdutos();
 
 window.salvarProduto = salvarProduto
