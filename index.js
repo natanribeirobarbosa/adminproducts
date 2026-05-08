@@ -11,11 +11,11 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-async function apagarPorStore(storeNome) {
+async function apagarPorNome(nome) {
 
   const q = query(
     collection(db, "roupas"),
-    where("store", "==", storeNome)
+    where("nome", "==", nome)
   );
 
   const snapshot = await getDocs(q);
@@ -82,7 +82,7 @@ function carregarProdutos() {
         <span class="name">${p.nome}</span>
        
         <div>
-          <button onclick='apagarPorStore("${p.nome}")'>
+          <button onclick='apagarPorNome("${p.nome}")'>
             REMOVER
           </button>
           
@@ -101,7 +101,7 @@ function carregarProdutos() {
 
 
 carregarProdutos();
-window.apagarPorStore = apagarPorStore
+window.apagarPorNome = apagarPorNome
 window.salvarProduto = salvarProduto
 
 
