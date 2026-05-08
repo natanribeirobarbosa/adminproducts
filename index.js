@@ -7,7 +7,8 @@ import {
   onSnapshot,
    query,
   where,
-  deleteDoc
+  deleteDoc,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 async function apagarPorStore(storeNome) {
