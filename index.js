@@ -26,6 +26,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
 
   // salva na coleção da categoria com o MESMO ID
   await setDoc(doc(db, cat1, produtoId), );
+  console.log(cat2, cat3, cat4)
     if(cat2!=''){
         await setDoc(doc(db, cat2, produtoId), );
   }
