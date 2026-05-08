@@ -73,7 +73,7 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
     console.log(categories);
     console.log(typeof categories);
 
-    if (categories.includes(busca)) {
+    if (categories.includes(cat1)) {
         const nomesAtuais = categories.push(cat1)
 
         const ref = doc(db, "config", "allCategories");
