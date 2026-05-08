@@ -20,24 +20,30 @@ async function captureCategories() {
     return dados.names;
 }
 
-async function apagarPorNome(nome) {
+async function apagarPorNome(nomeBusca) {
 
-    nomes = await captureCategories;
+  const ref = doc(db, "config", "allCategories");
+  const snapshot = await getDoc(ref);
 
-    nomes.forEach(nome => {
-        const q = query(
-            collection(db, nome),
-            where("nome", "==", nome)
-        );
+  const dados = snapshot.data();
+  const nomes = dados.names || [];
 
-        const snapshot = await getDocs(q);
+  for (const colecao of nomes) {
 
-        snapshot.forEach(async (item) => {
-            await deleteDoc(doc(db, "roupas", item.id));
-        });
+    const q = query(
+      collection(db, colecao),
+      where("nome", "==", nomeBusca)
+    );
 
-        console.log("Documentos removidos");
-    })
+    const querySnapshot = await getDocs(q);
+
+    for (const item of querySnapshot.docs) {
+      await deleteDoc(doc(db, colecao, item.id));
+    }
+
+  }
+
+  console.log("Documentos removidos");
 }
 
 
