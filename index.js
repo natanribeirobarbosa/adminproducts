@@ -81,7 +81,7 @@ function carregarProdutos() {
         <span class="name">${p.nome}</span>
        
         <div>
-          <button onclick="apagarPorStore(${p.nome})">
+          <button onclick='apagarPorStore("${p.nome}")'>
             REMOVER
           </button>
           
