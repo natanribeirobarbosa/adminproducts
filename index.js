@@ -10,6 +10,22 @@ import {
   deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+async function apagarPorStore(storeNome) {
+
+  const q = query(
+    collection(db, "roupas"),
+    where("store", "==", storeNome)
+  );
+
+  const snapshot = await getDocs(q);
+
+  snapshot.forEach(async (item) => {
+    await deleteDoc(doc(db, "roupas", item.id));
+  });
+
+  console.log("Documentos removidos");
+}
+
 
 async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, cat4) {
 
@@ -82,21 +98,7 @@ function carregarProdutos() {
 }
 
 
-async function apagarPorStore(storeNome) {
 
-  const q = query(
-    collection(db, "roupas"),
-    where("store", "==", storeNome)
-  );
-
-  const snapshot = await getDocs(q);
-
-  snapshot.forEach(async (item) => {
-    await deleteDoc(doc(db, "roupas", item.id));
-  });
-
-  console.log("Documentos removidos");
-}
 carregarProdutos();
 
 window.salvarProduto = salvarProduto
