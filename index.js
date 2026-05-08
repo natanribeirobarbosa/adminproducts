@@ -72,7 +72,7 @@ function carregarProdutos() {
           
         </div>
       </div>
-    </div>
+    
         `
 
     })
