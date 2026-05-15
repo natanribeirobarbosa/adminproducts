@@ -166,6 +166,11 @@ function carregarProdutos() {
 
 //adicionar atributos
 async function addFieldToCollections(fieldName, fieldValue) {
+    if (fieldValue === "true") fieldValue = true;
+    else if (fieldValue === "false") fieldValue = false;
+    else if (fieldValue === "null") fieldValue = null;
+    else if (!isNaN(fieldValue) && fieldValue !== "") fieldValue = Number(fieldValue);
+
     const collections = await captureCategories();
 
     const BATCH_LIMIT = 500; // Limite do Firestore por batch
