@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admin</title>
     <style>
-        form{
+        form {
             display: flex;
             flex-direction: column;
             background-color: antiquewhite;
             padding: 10px;
         }
-        button{
+
+        button {
             margin: 10px;
-            
+
         }
+
         .image {
             width: 200px;
             height: 200px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            }
-
+        }
     </style>
 </head>
 <script src="index.js" type="module"></script>
@@ -33,40 +35,56 @@
         <label for="nome">Nome</label>
         <input type="text" maxlength="41" name="nome" id="nome">
         <label for="link">Link do produto</label>
-         <input type="text" name="link" id="link">
+        <input type="text" name="link" id="link">
         <label for="linkF">link da foto</label>
-         <input type="text" name="linkF" id="linkF">
-          <label for="price">Preço (por completo)</label>
-         <input type="text" name="price" id="price">
-          <label for="store">loja</label>
-         <input type="text" name="store" id="store">
-          <label for="cat">categoria 1 (obrigatório)</label>
-         <input type="text" name="cat" id="cat1">
-         <label for="cat">categoria 2</label>
-         <input type="text" name="cat" id="cat2">
-         <label for="cat">categoria 3</label>
-         <input type="text" name="cat" id="cat3">
-         <label for="cat">categoria 4</label>
-         <input type="text" name="cat" id="cat4">
-         
+        <input type="text" name="linkF" id="linkF">
+        <label for="price">Preço (por completo)</label>
+        <input type="text" name="price" id="price">
+        <label for="store">loja</label>
+        <input type="text" name="store" id="store">
+        <label for="cat">categoria 1 (obrigatório)</label>
+        <input type="text" name="cat" id="cat1">
+        <label for="cat">categoria 2</label>
+        <input type="text" name="cat" id="cat2">
+        <label for="cat">categoria 3</label>
+        <input type="text" name="cat" id="cat3">
+        <label for="cat">categoria 4</label>
+        <input type="text" name="cat" id="cat4">
+
     </form>
 
     <div id="lista"></div>
-        <button onclick='salvarProduto(document.getElementById("nome").value, document.getElementById("link").value, document.getElementById("linkF").value, document.getElementById("price").value, document.getElementById("store").value, document.getElementById("cat1").value,document.getElementById("cat2").value,document.getElementById("cat3").value,document.getElementById("cat4").value)'>Adicionar produto</button>
+    <h1>Adicionar produto</h1>
+    <button
+        onclick='salvarProduto(document.getElementById("nome").value, document.getElementById("link").value, document.getElementById("linkF").value, document.getElementById("price").value, document.getElementById("store").value, document.getElementById("cat1").value,document.getElementById("cat2").value,document.getElementById("cat3").value,document.getElementById("cat4").value)'>Adicionar
+        produto</button>
 
 
 
 
 
-        <hr>
+    <hr>
+    <h1>Adicionar atributo</h1>
+    <hr>
+    <h1>Adicionar atributo em todos os itens</h1>
+    <form>
+        <label for="atributo"></label>
+        <input type="text" name="atributo" id="atributo">
+        <label for="valor"></label>
+        <input type="text" name="valor" id="valor">
 
-        <div id="products"></div>
+    </form>
 
-    
+        <button onclick='addFieldToCollections(document.getElementById("atributo").value, document.getElementById("valor").value)'>adicionar</button>
+
+    <hr>
+    <div id="products"></div>
+
+
 </body>
 
 <script>
-    
+
 </script>
 
 
