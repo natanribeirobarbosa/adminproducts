@@ -31,6 +31,7 @@
 
 
 <body>
+    <h1>Adicionar produto</h1>
     <form action="" method="get">
         <label for="nome">Nome</label>
         <input type="text" maxlength="41" name="nome" id="nome">
@@ -53,31 +54,39 @@
 
     </form>
 
-    <div id="lista"></div>
-    <h1>Adicionar produto</h1>
+
+
     <button
         onclick='salvarProduto(document.getElementById("nome").value, document.getElementById("link").value, document.getElementById("linkF").value, document.getElementById("price").value, document.getElementById("store").value, document.getElementById("cat1").value,document.getElementById("cat2").value,document.getElementById("cat3").value,document.getElementById("cat4").value)'>Adicionar
-        produto</button>
+        produto
+    </button>
 
 
 
 
 
     <hr>
-    <h1>Adicionar atributo</h1>
-    <hr>
+
     <h1>Adicionar atributo em todos os itens</h1>
     <form>
-        <label for="atributo"></label>
+        <label for="atributo">atributo</label>
         <input type="text" name="atributo" id="atributo">
-        <label for="valor"></label>
+        <label for="valor">valor</label>
         <input type="text" name="valor" id="valor">
 
     </form>
 
-        <button onclick='addFieldToCollections(document.getElementById("atributo").value, document.getElementById("valor").value)'>adicionar</button>
+    <button
+        onclick='addFieldToCollections(document.getElementById("atributo").value, document.getElementById("valor").value)'>adicionar</button>
 
     <hr>
+    <h1>Remover atributo em todos os itens</h1>
+    <form>
+        <label for="atributo2">atributo</label>
+        <input type="text" name="atributo2" id="atributo2">
+    </form>
+    <button onclick='removeFieldFromCollections(document.getElementById("atributo2").value)'>Remover</button>
+
     <div id="products"></div>
 
 

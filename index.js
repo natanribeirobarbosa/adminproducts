@@ -8,6 +8,8 @@ import {
     query,
     where,
     deleteDoc,
+    writeBatch,
+    deleteField,
     updateDoc,
     getDocs,
     getDoc
@@ -203,9 +205,53 @@ async function addFieldToCollections(fieldName, fieldValue) {
     console.log("🎉 Todas as coleções foram atualizadas com sucesso!");
 }
 
+async function removeFieldFromCollections(fieldName) {
+    const collections = await captureCategories();
+
+    const BATCH_LIMIT = 500;
+
+    for (const collectionName of collections) {
+        console.log(`⏳ Processando coleção: "${collectionName}"...`);
+
+        const collectionRef = collection(db, collectionName);
+        const snapshot = await getDocs(collectionRef);
+
+        if (snapshot.empty) {
+            console.log(`  ⚠️  Coleção "${collectionName}" está vazia, pulando.`);
+            continue;
+        }
+
+        const docs = snapshot.docs;
+        let updatedCount = 0;
+
+        for (let i = 0; i < docs.length; i += BATCH_LIMIT) {
+            const batch = writeBatch(db);
+            const chunk = docs.slice(i, i + BATCH_LIMIT);
+
+            for (const document of chunk) {
+                const docRef = doc(db, collectionName, document.id);
+                batch.update(docRef, { [fieldName]: deleteField() });
+            }
+
+            await batch.commit();
+            updatedCount += chunk.length;
+            console.log(`  ✅ ${updatedCount}/${docs.length} documentos atualizados em "${collectionName}"`);
+        }
+
+        console.log(`✔️  Coleção "${collectionName}" concluída (${docs.length} docs).\n`);
+    }
+
+    console.log("🎉 Todas as coleções foram atualizadas com sucesso!");
+}
+
+// Uso:
+await removeFieldFromCollections("nomeDoAtributo");
+
 
 
 carregarProdutos();
+window.removeFieldFromCollections = removeFieldFromCollections
+window.addFieldToCollections = addFieldToCollections
 window.apagarPorNome = apagarPorNome
 window.salvarProduto = salvarProduto
 
