@@ -24,8 +24,7 @@ async function captureCategories() {
     return dados.names;
 }
 
-async function apagarPorNome(nomeBusca) {
-
+async function apagarPorId(docId) {
     const ref = doc(db, "config", "allCategories");
     const snapshot = await getDoc(ref);
 
@@ -33,22 +32,12 @@ async function apagarPorNome(nomeBusca) {
     const nomes = dados.names || [];
 
     for (const colecao of nomes) {
-
-        const q = query(
-            collection(db, colecao),
-            where("nome", "==", nomeBusca)
-        );
-
-        const querySnapshot = await getDocs(q);
-
-        for (const item of querySnapshot.docs) {
-            await deleteDoc(doc(db, colecao, item.id));
-        }
-
+        await deleteDoc(doc(db, colecao, docId));
     }
 
     console.log("Documentos removidos");
 }
+
 
 
 async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, cat4) {
@@ -135,20 +124,30 @@ function carregarProdutos() {
     onSnapshot(collection(db, "roupas"), snapshot => {
         lista.innerHTML = ""
         let html = '';
-
+        var active = "desativo"
         snapshot.forEach(doc => {
             const p = doc.data();
+            if(p.enable){
+                active = "ativo"
+            }
             html += `
        <div class="product">
 
       <div class="image" style="background-image: url('${p.linkF}')"></div>
         
         <span class="name">${doc.id}</span>
-        <span class="name">${p.nome}</span>
+        <span class="name">${p.nome}</span><br>
+        <span class="name">${active}</span>
        
         <div>
-          <button onclick='apagarPorNome("${p.nome}")'>
+          <button onclick='apagarPorId("${doc.id}")'>
             REMOVER
+          </button>
+          <button onclick='hideOrShowDocument(${doc.id, true})'>
+            Ativar
+          </button>
+          <button onclick='hideOrShowDocument(${doc.id, false})'>
+            Desativar
           </button>
           
         </div>
@@ -249,8 +248,19 @@ async function removeFieldFromCollections(fieldName) {
     console.log("🎉 Todas as coleções foram atualizadas com sucesso!");
 }
 
-// Uso:
-await removeFieldFromCollections("nomeDoAtributo");
+
+async function hideOrShowDocument(docId, status) {
+    const collections = await captureCategories();
+    const batch = writeBatch(db);
+
+    for (const collectionName of collections) {
+        const docRef = doc(db, collectionName, docId);
+        batch.update(docRef, { visible: status });
+    }
+
+    await batch.commit();
+    console.log(`✅ Documento "${docId}" ocultado em todas as coleções!`);
+}
 
 
 
@@ -261,3 +271,4 @@ window.apagarPorNome = apagarPorNome
 window.salvarProduto = salvarProduto
 
 
+ 
