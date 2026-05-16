@@ -127,7 +127,7 @@ function carregarProdutos() {
         var active = "desativo"
         snapshot.forEach(doc => {
             const p = doc.data();
-            if(p.enable){
+            if(p.visible){
                 active = "ativo"
             }
             html += `
@@ -251,17 +251,18 @@ async function removeFieldFromCollections(fieldName) {
 
 async function hideOrShowDocument(docId, status) {
     const collections = await captureCategories();
-    const batch = writeBatch(db);
 
     for (const collectionName of collections) {
-        const docRef = doc(db, collectionName, docId);
-        batch.set(docRef, { visible: status }, { merge: true }); // ← não falha se não existir
+        try {
+            const docRef = doc(db, collectionName, docId);
+            await updateDoc(docRef, { visible: status });
+        } catch (e) {
+            // documento não existe nessa coleção, ignora
+        }
     }
 
-    await batch.commit();
     console.log(`✅ Documento "${docId}" ${status ? "visível" : "oculto"} em todas as coleções!`);
 }
-
 
 
 carregarProdutos();
