@@ -124,15 +124,50 @@ function carregarProdutos() {
     onSnapshot(collection(db, "roupas"), snapshot => {
         lista.innerHTML = ""
         let html = '';
-        var active;
+      
         snapshot.forEach(doc => {
 
             const p = doc.data();
-            if (p.visible == true) {
-                active = "ativo"
-            } else {
-                active = "desativo"
-            }
+          
+            html += `
+       <div class="product">
+
+      <div class="image" style="background-image: url('${p.linkF}')"></div>
+        
+        <span class="name">${doc.id}</span>
+        <span class="name">${p.nome}</span><br>
+     
+        <div>
+          <button onclick='apagarPorId("${doc.id}")'>
+            REMOVER
+          </button>
+            <button onclick='ocultarDocumento("${doc.id}")'>Ocultar</button>
+       
+          
+        </div>
+      </div>
+    
+        `
+
+        })
+        lista.innerHTML = html;
+
+    })
+
+}
+
+
+
+function carregarProdutosDesabilitados() {
+    const lista = document.getElementById("products2")
+
+    onSnapshot(collection(db, "desibles"), snapshot => {
+        lista.innerHTML = ""
+        let html = '';
+        var active;
+        snapshot.forEach(doc => {
+            const p = doc.data();
+          
             html += `
        <div class="product">
 
@@ -146,8 +181,8 @@ function carregarProdutos() {
           <button onclick='apagarPorId("${doc.id}")'>
             REMOVER
           </button>
-            <button onclick='ocultarDocumento("${doc.id}")'>Ocultar</button>
-            <button onclick='mostrarDocumento("${doc.id}")'>Mostrar</button>
+            <button onclick='mostrarDocumento("${doc.id}")'>Atiar item</button>
+       
           
         </div>
       </div>
@@ -160,6 +195,9 @@ function carregarProdutos() {
     })
 
 }
+
+
+
 
 
 //adicionar atributos
@@ -298,6 +336,7 @@ async function mostrarDocumento(docId) {
 }
 
 carregarProdutos();
+carregarProdutosDesabilitados();
 window.mostrarDocumento = mostrarDocumento
 window.ocultarDocumento = ocultarDocumento
 window.removeFieldFromCollections = removeFieldFromCollections
