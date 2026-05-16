@@ -126,11 +126,11 @@ function carregarProdutos() {
         let html = '';
         var active;
         snapshot.forEach(doc => {
-            
+
             const p = doc.data();
-            if(p.visible==true){
+            if (p.visible == true) {
                 active = "ativo"
-            }else{
+            } else {
                 active = "desativo"
             }
             html += `
@@ -146,12 +146,8 @@ function carregarProdutos() {
           <button onclick='apagarPorId("${doc.id}")'>
             REMOVER
           </button>
-          <button onclick='hideOrShowDocument("${doc.id}", true)'>
-            Ativar
-          </button>
-          <button onclick='hideOrShowDocument("${doc.id}", false)'>
-            Desativar
-          </button>
+            <button onclick='ocultarDocumento("${doc.id}")'>Ocultar</button>
+            <button onclick='mostrarDocumento("${doc.id}")'>Mostrar</button>
           
         </div>
       </div>
@@ -250,30 +246,63 @@ async function removeFieldFromCollections(fieldName) {
 
     console.log("🎉 Todas as coleções foram atualizadas com sucesso!");
 }
+async function ocultarDocumento(docId) {
+    const roupasRef = doc(db, "roupas", docId);
+    const snapshot = await getDoc(roupasRef);
 
-
-async function hideOrShowDocument(docId, status) {
-    const collections = await captureCategories();
-
-    for (const collectionName of collections) {
-        try {
-            const docRef = doc(db, collectionName, docId);
-            await updateDoc(docRef, { visible: status });
-        } catch (e) {
-            // documento não existe nessa coleção, ignora
-        }
+    if (!snapshot.exists()) {
+        console.log("Documento não encontrado em 'roupas'!");
+        return;
     }
 
-    console.log(`✅ Documento "${docId}" ${status ? "visível" : "oculto"} em todas as coleções!`);
+    const dadosDoc = snapshot.data();
+    const colecoes = dadosDoc.collections || [];
+
+    // Copia para "disables"
+    await setDoc(doc(db, "disables", docId), dadosDoc);
+
+    // Apaga de "roupas" e das coleções do atributo
+    const batch = writeBatch(db);
+    batch.delete(roupasRef);
+    for (const collectionName of colecoes) {
+        batch.delete(doc(db, collectionName, docId));
+    }
+    await batch.commit();
+
+    console.log(`✅ Documento "${docId}" movido para "disables"!`);
 }
 
 
+async function mostrarDocumento(docId) {
+    const disabledRef = doc(db, "disables", docId);
+    const snapshot = await getDoc(disabledRef);
+
+    if (!snapshot.exists()) {
+        console.log("Documento não encontrado em 'disables'!");
+        return;
+    }
+
+    const dadosDoc = snapshot.data();
+    const colecoes = dadosDoc.collections || [];
+
+    const batch = writeBatch(db);
+    batch.set(doc(db, "roupas", docId), dadosDoc); // restaura em "roupas"
+    for (const collectionName of colecoes) {
+        batch.set(doc(db, collectionName, docId), dadosDoc); // restaura nas demais
+    }
+    await batch.commit();
+
+    await deleteDoc(disabledRef);
+
+    console.log(`✅ Documento "${docId}" restaurado!`);
+}
+
 carregarProdutos();
-window.hideOrShowDocument = hideOrShowDocument
+window.mostrarDocumento = mostrarDocumento
+window.ocultarDocumento = ocultarDocumento
 window.removeFieldFromCollections = removeFieldFromCollections
 window.addFieldToCollections = addFieldToCollections
 window.apagarPorId = apagarPorId
 window.salvarProduto = salvarProduto
 
 
- 
