@@ -265,6 +265,7 @@ async function hideOrShowDocument(docId, status) {
 
 
 carregarProdutos();
+window.hideOrShowDocument = hideOrShowDocument
 window.removeFieldFromCollections = removeFieldFromCollections
 window.addFieldToCollections = addFieldToCollections
 window.apagarPorNome = apagarPorNome
