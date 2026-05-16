@@ -161,7 +161,7 @@ function carregarProdutos() {
 function carregarProdutosDesabilitados() {
     const lista = document.getElementById("products2")
 
-    onSnapshot(collection(db, "desibles"), snapshot => {
+    onSnapshot(collection(db, "desables"), snapshot => {
         lista.innerHTML = ""
         let html = '';
         var active;
