@@ -124,11 +124,14 @@ function carregarProdutos() {
     onSnapshot(collection(db, "roupas"), snapshot => {
         lista.innerHTML = ""
         let html = '';
-        var active = "desativo"
+        var active;
         snapshot.forEach(doc => {
+            
             const p = doc.data();
             if(p.visible==true){
                 active = "ativo"
+            }else{
+                active = "desativo"
             }
             html += `
        <div class="product">
