@@ -112,7 +112,6 @@ async function salvarProduto(nome, link, linkF, price, store, cat1, cat2, cat3, 
         }
     }
 
-    await setDoc(doc(db, "vitrine", produtoId), dados);
 
     alert("Salvo com sucesso!");
 }
@@ -181,7 +180,7 @@ function carregarProdutosDesabilitados() {
           <button onclick='apagarPorId("${doc.id}")'>
             REMOVER
           </button>
-            <button onclick='mostrarDocumento("${doc.id}")'>Atiar item</button>
+            <button onclick='mostrarDocumento("${doc.id}")'>Ativar item</button>
        
           
         </div>
@@ -335,8 +334,33 @@ async function mostrarDocumento(docId) {
     console.log(`✅ Documento "${docId}" restaurado!`);
 }
 
+async function copiarParaColecao(docId, colecaoDestino) {
+    const roupasRef = doc(db, "roupas", docId);
+    const snapshot = await getDoc(roupasRef);
+
+    if (!snapshot.exists()) {
+        console.log("Documento não encontrado em 'roupas'!");
+        return;
+    }
+
+    const dadosDoc = snapshot.data();
+    const colecoes = dadosDoc.collections || [];
+
+    // Copia para a coleção destino
+    await setDoc(doc(db, colecaoDestino, docId), dadosDoc);
+
+    // Adiciona no atributo collections, exceto se for "vitrine"
+    if (colecaoDestino !== "vitrine") {
+        const novasColecoes = [...new Set([...colecoes, colecaoDestino])];
+        await updateDoc(roupasRef, { collections: novasColecoes });
+    }
+
+    console.log(`✅ Documento "${docId}" copiado para "${colecaoDestino}"!`);
+}
+
 carregarProdutos();
 carregarProdutosDesabilitados();
+window.copiarParaColecao = copiarParaColecao
 window.mostrarDocumento = mostrarDocumento
 window.ocultarDocumento = ocultarDocumento
 window.removeFieldFromCollections = removeFieldFromCollections

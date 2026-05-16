@@ -87,6 +87,16 @@
     </form>
     <button onclick='removeFieldFromCollections(document.getElementById("atributo2").value)'>Remover</button>
     <hr>
+    <h1>Copiar produtos</h1>
+    <form>
+        <label for="Id">Id do documento: </label>
+        <input type="text" name="Id" id="Id">
+        <label for="collection">Coleção de destino: </label>
+        <input type="text" name="collection" id="collection">
+    </form>
+    <button onclick='copiarParaColecao(document.getElementById("Id"), document.getElementById("collection"))'>Copiar</button>
+
+    <hr>
     <h1>Produtos ativos:</h1>
     <div id="products"></div>
     <hr>
