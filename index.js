@@ -250,15 +250,16 @@ async function removeFieldFromCollections(fieldName) {
 
 
 async function hideOrShowDocument(docId, status) {
-    console.log("docId:", docId);
-    console.log("tipo:", typeof docId);
-
     const collections = await captureCategories();
+    const batch = writeBatch(db);
 
     for (const collectionName of collections) {
         const docRef = doc(db, collectionName, docId);
-        console.log("path gerado:", docRef.path);
+        batch.set(docRef, { visible: status }, { merge: true }); // ← não falha se não existir
     }
+
+    await batch.commit();
+    console.log(`✅ Documento "${docId}" ${status ? "visível" : "oculto"} em todas as coleções!`);
 }
 
 
