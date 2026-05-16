@@ -143,10 +143,10 @@ function carregarProdutos() {
           <button onclick='apagarPorId("${doc.id}")'>
             REMOVER
           </button>
-          <button onclick='hideOrShowDocument(${doc.id, true})'>
+          <button onclick='hideOrShowDocument("${doc.id}", true)'>
             Ativar
           </button>
-          <button onclick='hideOrShowDocument(${doc.id, false})'>
+          <button onclick='hideOrShowDocument("${doc.id}", false)'>
             Desativar
           </button>
           
@@ -268,7 +268,7 @@ carregarProdutos();
 window.hideOrShowDocument = hideOrShowDocument
 window.removeFieldFromCollections = removeFieldFromCollections
 window.addFieldToCollections = addFieldToCollections
-window.apagarPorNome = apagarPorNome
+window.apagarPorId = apagarPorId
 window.salvarProduto = salvarProduto
 
 
