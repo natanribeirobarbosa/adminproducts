@@ -127,7 +127,7 @@ function carregarProdutos() {
         var active = "desativo"
         snapshot.forEach(doc => {
             const p = doc.data();
-            if(p.visible){
+            if(p.visible==true){
                 active = "ativo"
             }
             html += `
